@@ -1,11 +1,10 @@
-package com.hwy.mymusicplayer;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.hwy.mymusicplayer.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.hwy.mymusicplayer.R;
 import com.hwy.mymusicplayer.utils.UserUtils;
 import com.hwy.mymusicplayer.views.InputView;
 

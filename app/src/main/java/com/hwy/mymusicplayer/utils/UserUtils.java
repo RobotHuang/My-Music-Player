@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.RegexUtils;
-import com.hwy.mymusicplayer.LoginActivity;
+import com.hwy.mymusicplayer.activities.LoginActivity;
 import com.hwy.mymusicplayer.R;
 
 public class UserUtils {

@@ -1,9 +1,9 @@
-package com.hwy.mymusicplayer;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.hwy.mymusicplayer.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.hwy.mymusicplayer.R;
 
 import java.util.Timer;
 import java.util.TimerTask;

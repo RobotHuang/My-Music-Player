@@ -1,10 +1,12 @@
-package com.hwy.mymusicplayer;
+package com.hwy.mymusicplayer.activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.hwy.mymusicplayer.R;
 
 public class BaseActivity extends Activity {
 

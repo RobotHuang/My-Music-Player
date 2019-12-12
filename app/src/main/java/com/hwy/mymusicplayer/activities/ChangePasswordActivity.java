@@ -1,8 +1,8 @@
-package com.hwy.mymusicplayer;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.hwy.mymusicplayer.activities;
 
 import android.os.Bundle;
+
+import com.hwy.mymusicplayer.R;
 
 public class ChangePasswordActivity extends BaseActivity {
 
