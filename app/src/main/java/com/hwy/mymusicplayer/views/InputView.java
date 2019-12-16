@@ -88,4 +88,12 @@ public class InputView extends FrameLayout {
     public String getInputStr() {
         return etInput.getText().toString().trim();
     }
+
+    /**
+     * 添加输入内容
+     * @param str
+     */
+    public void setInputStr(String str) {
+        etInput.setText(str);
+    }
 }

@@ -80,6 +80,30 @@
                 android:layout_height="wrap_content">
             </androidx.recyclerview.widget.RecyclerView>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/marginSize"
+                android:layout_marginLeft="@dimen/marginSize"
+                android:layout_marginBottom="@dimen/marginSize"
+                android:onClick="onLocalClick">
+
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="22dp"
+                    android:background="@color/mainColor"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="本地音乐"
+                    android:textSize="@dimen/titleSize"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black">
+                </TextView>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

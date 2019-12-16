@@ -3,6 +3,10 @@ package com.hwy.mymusicplayer.helps;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Bundle;
+import android.os.Message;
+
+import com.hwy.mymusicplayer.activities.PlayMusicActivity;
 
 import java.io.IOException;
 
@@ -10,13 +14,13 @@ public class MediaPlayerHelp {
 
     private static MediaPlayerHelp instance;
 
-    private Context context;
+    private Context mContext;
 
-    private MediaPlayer mediaPlayer;
+    private MediaPlayer mMediaPlayer;
 
     private OnMediaPlayerHelperListener onMediaPlayerHelperListener;
 
-    private String path;
+    private String mPath;
 
     public void setOnMediaPlayerHelperListener(OnMediaPlayerHelperListener onMediaPlayerHelperListener) {
         this.onMediaPlayerHelperListener = onMediaPlayerHelperListener;
@@ -37,8 +41,8 @@ public class MediaPlayerHelp {
 
 
     private MediaPlayerHelp(Context context) {
-        this.context = context;
-        this.mediaPlayer = new MediaPlayer();
+        this.mContext = context;
+        this.mMediaPlayer = new MediaPlayer();
     }
 
     /**
@@ -48,25 +52,35 @@ public class MediaPlayerHelp {
     public void setPath(String path) {
 
         //当前音乐正在播放，重置播放状态
-        if (mediaPlayer.isPlaying() || !path.equals(this.path)) {
-            mediaPlayer.reset();
+        if (mMediaPlayer.isPlaying() || !path.equals(this.mPath)) {
+            mMediaPlayer.reset();
         }
-        this.path = path;
+        this.mPath = path;
 
         //设置音乐播放路径
         try {
-            mediaPlayer.setDataSource(context, Uri.parse(path));
+            mMediaPlayer.setDataSource(mContext, Uri.parse(path));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         //准备播放
-        mediaPlayer.prepareAsync();
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+        mMediaPlayer.prepareAsync();
+        mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 if (onMediaPlayerHelperListener != null) {
                     onMediaPlayerHelperListener.onPrepared(mp);
+                }
+            }
+        });
+
+        //监听音乐播放完成
+        mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                if (onMediaPlayerHelperListener != null) {
+                    onMediaPlayerHelperListener.onCompletion(mp);
                 }
             }
         });
@@ -77,25 +91,28 @@ public class MediaPlayerHelp {
      * @return
      */
     public String getPath() {
-        return this.path;
+        return mPath;
     }
 
     public interface OnMediaPlayerHelperListener {
         void onPrepared(MediaPlayer mp);
+        void onCompletion(MediaPlayer mp);
     }
 
     /**
      * 播放音乐
      */
     public void start() {
-        if (mediaPlayer.isPlaying()) return;
-        mediaPlayer.start();
+        if (mMediaPlayer.isPlaying()) return;
+        mMediaPlayer.start();
     }
 
     /**
      * 暂停播放
      */
     public void pause() {
-        mediaPlayer.pause();
+        mMediaPlayer.pause();
     }
+
+
 }

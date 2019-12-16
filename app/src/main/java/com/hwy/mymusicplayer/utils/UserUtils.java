@@ -9,6 +9,8 @@ import android.widget.Toast;
 import com.blankj.utilcode.util.RegexUtils;
 import com.hwy.mymusicplayer.activities.LoginActivity;
 import com.hwy.mymusicplayer.R;
+import com.hwy.mymusicplayer.helps.RealmHelper;
+import com.hwy.mymusicplayer.helps.UserHelper;
 
 public class UserUtils {
 
@@ -30,6 +32,12 @@ public class UserUtils {
             Toast.makeText(context, "请输入密码", Toast.LENGTH_SHORT).show();
             return false;
         }
+
+        UserHelper.getInstance().setPhone(phone);
+
+        RealmHelper realmHelper = new RealmHelper();
+        realmHelper.setMusicSource(context);
+        realmHelper.close();
         return true;
     }
 

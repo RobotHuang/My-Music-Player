@@ -1,22 +1,39 @@
 package com.hwy.mymusicplayer.activities;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.hwy.mymusicplayer.R;
+import com.hwy.mymusicplayer.helps.RealmHelper;
+import com.hwy.mymusicplayer.models.MusicModel;
 import com.hwy.mymusicplayer.views.PlayMusicView;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class PlayMusicActivity extends BaseActivity {
 
-    private ImageView ivBg;
+    public static final String MUSIC_ID = "musicId";
 
-    private PlayMusicView playMusicView;
+    private ImageView mIvBg;
+
+    private PlayMusicView mPlayMusicView;
+
+    private TextView mTvName, mTvAuthor;
+
+    private String mMusicId;
+
+    private RealmHelper mRealmHelper;
+
+    private MusicModel mMusicModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +43,7 @@ public class PlayMusicActivity extends BaseActivity {
         //隐藏statusBar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        initData();
         initView();
 
     }
@@ -38,17 +56,29 @@ public class PlayMusicActivity extends BaseActivity {
         onBackPressed();
     }
 
+    private void initData() {
+        mMusicId = getIntent().getStringExtra(MUSIC_ID);
+        mRealmHelper = new RealmHelper();
+        mMusicModel = mRealmHelper.getMusic(mMusicId);
+    }
+
     private void initView() {
-        ivBg = findViewById(R.id.iv_bg);
+        mIvBg = findViewById(R.id.iv_bg);
+        mTvName = findViewById(R.id.tv_name);
+        mTvAuthor = findViewById(R.id.tv_author);
 
+        //        glide-transformations
         Glide.with(this)
-                .load("https://y.gtimg.cn/music/photo_new/T002R300x300M000003eE8gA3TfuKc.jpg?max_age=2592000")
+                .load(mMusicModel.getPoster())
                 .apply(RequestOptions.bitmapTransform(new BlurTransformation(25, 10)))
-                .into(ivBg);
+                .into(mIvBg);
+        mTvName.setText(mMusicModel.getName());
+        mTvAuthor.setText(mMusicModel.getAuthor());
 
-        playMusicView = findViewById(R.id.play_music_view);
-        playMusicView.setMusicIcon("https://y.gtimg.cn/music/photo_new/T002R300x300M000003eE8gA3TfuKc.jpg?max_age=2592000");
-        playMusicView.playMusic("http://isure.stream.qqmusic.qq.com/C400000lv3Zi13dSVA.m4a?guid=4914839700&vkey=A063F44589627C7C329CFDE888CFB8494C35B6CCAA614E704500D97A2EB4C7B04FFFCD685CAC57B3DA23418ADA13BDD7B319FC1B3EF2FC5A&uin=0&fromtag=66");
+        mPlayMusicView = findViewById(R.id.play_music_view);
+        mPlayMusicView.setMusic(mMusicModel);
+        mPlayMusicView.playMusic();
+
     }
 
 }

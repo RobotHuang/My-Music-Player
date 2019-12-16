@@ -3,11 +3,15 @@ package com.hwy.mymusicplayer.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.hwy.mymusicplayer.R;
+import com.hwy.mymusicplayer.helps.UserHelper;
 import com.hwy.mymusicplayer.utils.UserUtils;
 
 public class MeActivity extends BaseActivity {
+
+    private TextView mTvUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,16 +23,10 @@ public class MeActivity extends BaseActivity {
 
     private void initView() {
         initNavBar(true, "Personal Center", false);
-
+        mTvUser = findViewById(R.id.tv_user);
+        mTvUser.setText("用户名：" + UserHelper.getInstance().getPhone());
     }
 
-    /**
-     * 修改密码
-     * @param view
-     */
-    public void onChangePasswordClick(View view) {
-        startActivity(new Intent(this, ChangePasswordActivity.class));
-    }
 
     /**
      * 退出登录

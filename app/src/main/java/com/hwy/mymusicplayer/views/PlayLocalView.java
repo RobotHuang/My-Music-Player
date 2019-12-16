@@ -18,44 +18,47 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.bumptech.glide.Glide;
 import com.hwy.mymusicplayer.R;
-import com.hwy.mymusicplayer.models.MusicModel;
 import com.hwy.mymusicplayer.services.MusicService;
 
-public class PlayMusicView extends FrameLayout {
+public class PlayLocalView extends FrameLayout {
 
     private Context mContext;
 
-    private MusicModel mMusicModel;
-    private MusicService.MusicBind mMusicBinder;
-    private Intent mServiceIntent;
-    private boolean isPlaying, isBindService;
     private View mView;
+
     private FrameLayout mFlPlayMusic;
+
     private ImageView mIvIcon , mIvNeedle, mIvPlay;
 
     private Animation mPlayMusicAnim, mPlayNeedleAnim, mStopNeedleAnim;
 
+    private boolean isPlaying, isBindService;
+
+    private String mPath, mName, mAuthor;
+
+    private Intent mServiceIntent;
+
+    private MusicService.MusicBind mMusicBinder;
 
 
-    public PlayMusicView(@NonNull Context context) {
+    public PlayLocalView(@NonNull Context context) {
         super(context);
         init(context);
     }
 
-    public PlayMusicView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public PlayLocalView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public PlayMusicView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public PlayLocalView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public PlayMusicView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public PlayLocalView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
     }
@@ -64,7 +67,7 @@ public class PlayMusicView extends FrameLayout {
         //MediaPlayer
         mContext = context;
 
-        mView = LayoutInflater.from(mContext).inflate(R.layout.play_music, this, false);
+        mView = LayoutInflater.from(mContext).inflate(R.layout.play_local, this, false);
 
         mFlPlayMusic = mView.findViewById(R.id.fl_play_music);
         mFlPlayMusic.setOnClickListener(new OnClickListener() {
@@ -92,6 +95,12 @@ public class PlayMusicView extends FrameLayout {
         addView(mView);
     }
 
+    public void setMusic(String path, String name, String author) {
+        mPath = path;
+        mName = name;
+        mAuthor = author;
+    }
+
     /**
      * 切换播放状态
      */
@@ -112,7 +121,7 @@ public class PlayMusicView extends FrameLayout {
         mFlPlayMusic.startAnimation(mPlayMusicAnim);
         mIvNeedle.startAnimation(mPlayNeedleAnim);
 
-//        启动服务
+        //启动服务
         startMusicService();
 
     }
@@ -130,34 +139,14 @@ public class PlayMusicView extends FrameLayout {
     }
 
     /**
-     * 设置光盘中显示的音乐封面图片
-     */
-    private void setMusicIcon () {
-        Glide.with(mContext)
-                .load(mMusicModel.getPoster())
-                .into(mIvIcon);
-    }
-
-    /**
-     * 设置音乐播放模型
-     */
-    public void setMusic (MusicModel musicModel) {
-        this.mMusicModel = musicModel;
-
-        setMusicIcon();
-    }
-
-
-    /**
      * 启动音乐服务
      */
     private void startMusicService () {
-
         if (mServiceIntent == null) {
             mServiceIntent = new Intent(mContext, MusicService.class);
             mContext.startService(mServiceIntent);
         } else {
-            mMusicBinder.playMusic();
+            mMusicBinder.playMusic(mPath);
         }
 
 
@@ -172,7 +161,7 @@ public class PlayMusicView extends FrameLayout {
      * 销毁方法，需要在 activity 被销毁的时候调用
      */
     public void destroy () {
-//        如果已绑定服务，则解除绑定，同时修改绑定状态
+        //如果已绑定服务，则解除绑定，同时修改绑定状态
         if (isBindService) {
             isBindService = false;
             mContext.unbindService(conn);
@@ -182,14 +171,14 @@ public class PlayMusicView extends FrameLayout {
 
     ServiceConnection conn = new ServiceConnection() {
         @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            mMusicBinder = (MusicService.MusicBind) service;
-            mMusicBinder.setMusic(mMusicModel);
-            mMusicBinder.playMusic();
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            mMusicBinder = (MusicService.MusicBind) iBinder;
+            mMusicBinder.setMusic(mPath, mName, mAuthor);
+            mMusicBinder.playMusic(mPath);
         }
 
         @Override
-        public void onServiceDisconnected(ComponentName name) {
+        public void onServiceDisconnected(ComponentName componentName) {
 
         }
     };

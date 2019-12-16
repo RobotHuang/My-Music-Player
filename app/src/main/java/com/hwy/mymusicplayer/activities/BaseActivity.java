@@ -10,9 +10,9 @@ import com.hwy.mymusicplayer.R;
 
 public class BaseActivity extends Activity {
 
-    private ImageView ivBack, ivMe;
+    private ImageView mIvBack, mIvMe;
 
-    private TextView tvTitle;
+    private TextView mTvTitle;
 
     /**
      * 初始化NavigationBar
@@ -21,22 +21,22 @@ public class BaseActivity extends Activity {
      * @param isShowMe
      */
     protected void initNavBar(boolean isShowBack, String title, boolean isShowMe) {
-        ivBack = findViewById(R.id.iv_back);
-        ivMe = findViewById(R.id.iv_me);
-        tvTitle = findViewById(R.id.tv_title);
+        mIvBack = findViewById(R.id.iv_back);
+        mIvMe = findViewById(R.id.iv_me);
+        mTvTitle = findViewById(R.id.tv_title);
 
-        ivBack.setVisibility(isShowBack ? View.VISIBLE : View.GONE);
-        tvTitle.setText(title);
-        ivMe.setVisibility(isShowMe ? View.VISIBLE : View.GONE);
+        mIvBack.setVisibility(isShowBack ? View.VISIBLE : View.GONE);
+        mTvTitle.setText(title);
+        mIvMe.setVisibility(isShowMe ? View.VISIBLE : View.GONE);
 
-        ivBack.setOnClickListener(new View.OnClickListener(){
+        mIvBack.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
 
-        ivMe.setOnClickListener(new View.OnClickListener() {
+        mIvMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(BaseActivity.this, MeActivity.class));

@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">My Music Player</string>
+    <string name="app_name">Robot Music Player</string>
     <string name="mr_robot">Mr. Robot</string>
     <string name="back">back</string>
-    <string name="username">username(phone)</string>
-    <string name="password">password</string>
+    <string name="username">username(11位的电话号码)</string>
+    <string name="password">password(随便输)</string>
     <string name="alter">修改</string>
     <string name="recommendSongs">推荐歌单</string>
 </resources>

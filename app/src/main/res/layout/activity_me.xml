@@ -10,6 +10,7 @@
     <include layout="@layout/nav_bar"/>
 
     <TextView
+        android:id="@+id/tv_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/titleSize"
@@ -18,17 +19,6 @@
         android:paddingLeft="@dimen/marginSize"
         android:textStyle="bold">
     </TextView>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/itemHeight"
-        android:layout_marginTop="@dimen/marginSize"
-        android:text="修改密码"
-        android:textSize="@dimen/infoSize"
-        android:paddingLeft="@dimen/marginSize"
-        android:gravity="center_vertical"
-        android:onClick="onChangePasswordClick"
-        android:background="@drawable/item_commit_selector"/>
 
     <Button
         style="@style/commitBtn"
